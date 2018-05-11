@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.czyz.springbootmongo.domain.Person;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.stream.Stream;
 
 

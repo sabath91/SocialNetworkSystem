@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.czyz.springbootmongo.domain.Person;
 
 @Component
-public class ExternalRouteBuilder extends RouteBuilder {
+public class CamelRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
@@ -94,7 +94,15 @@ public class ExternalRouteBuilder extends RouteBuilder {
                     .responseMessage()
                     .code(200)
                     .endResponseMessage()
-                    .to("bean:peopleServiceImpl?method=findAllByDateOfBirthIsBetween(${header.olderThen},${header.youngerThen})");
+                    .to("bean:peopleServiceImpl?method=findAllByDateOfBirthIsBetween(${header.olderThen},${header.youngerThen})")
+
+
+                .post("/people")
+                    .type(Person.class)
+                    .responseMessage()
+                    .code(200)
+                    .endResponseMessage()
+                    .to("bean:peopleServiceImpl?method=save(${body})");
 
 
 //        @formatter.:on
