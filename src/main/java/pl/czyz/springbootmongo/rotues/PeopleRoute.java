@@ -15,34 +15,34 @@ public class PeopleRoute extends RouteBuilder {
                 .produces("application/json")
 
                 .get()
-                    .to("bean:peopleServiceImpl?method=findAll")
+                    .to("bean:peopleService?method=findAll")
 
                 .get("/find/byCity")
-                    .to("bean:peopleServiceImpl?method=findAllByCity(${header.city})")
+                    .to("bean:peopleService?method=findAllByCity(${header.city})")
 
                 .get("/find/byName")
-                    .to("bean:peopleServiceImpl?method=findAllByName(${header.name})")
+                    .to("bean:peopleService?method=findAllByName(${header.name})")
 
                 .get("/find/byNameContaining")
-                    .to("bean:peopleServiceImpl?method=findAllByNameContaining(${header.partOfName})")
+                    .to("bean:peopleService?method=findAllByNameContaining(${header.partOfName})")
 
                 .get("/find/bySurname")
-                    .to("bean:peopleServiceImpl?method=findAllBySurname(${header.surname})")
+                    .to("bean:peopleService?method=findAllBySurname(${header.surname})")
 
                 .get("/find/bySurnameContaining")
-                    .to("bean:peopleServiceImpl?method=findAllBySurnameContaining(${header.partOfSurname})")
+                    .to("bean:peopleService?method=findAllBySurnameContaining(${header.partOfSurname})")
 
                 .get("/find/byNameAndSurname")
-                    .to("bean:peopleServiceImpl?method=findAllBySurnameContaining(${header.name}{header.surname})")
+                    .to("bean:peopleService?method=findAllBySurnameContaining(${header.name}{header.surname})")
 
                 .get("/find/byNameContainingAndSurnameContaining")
-                    .to("bean:peopleServiceImpl?method=findAllByNameContainingAndSurnameContaining(${header.partOfName}{header.partOfSurname})")
+                    .to("bean:peopleService?method=findAllByNameContainingAndSurnameContaining(${header.partOfName}{header.partOfSurname})")
 
                 .get("/find/byNameSurnameAndCity")
-                    .to("bean:peopleServiceImpl?method=findAllByNameAndSurnameAndCity(${header.name}{header.surname}{header.city})")
+                    .to("bean:peopleService?method=findAllByNameAndSurnameAndCity(${header.name}{header.surname}{header.city})")
 
                 .get("/find/inAgeBetween")
-                    .to("bean:peopleServiceImpl?method=findAllByDateOfBirthIsBetween(${header.olderThen},${header.youngerThen})")
+                    .to("bean:peopleService?method=findAllByDateOfBirthIsBetween(${header.olderThen},${header.youngerThen})")
 
                 .post()
                     .type(Person.class)
@@ -55,9 +55,9 @@ public class PeopleRoute extends RouteBuilder {
                         .enrich("direct:savePersonInMongoDb", (oldExchange, newExchange) -> newExchange)
                         .to("direct:savePersonNodeInNeo4j");
 
-                from("direct:savePersonInMongoDb").to("bean:peopleServiceImpl?method=save(${body})");
+                from("direct:savePersonInMongoDb").to("bean:peopleService?method=save(${body})");
 
-                from("direct:savePersonNodeInNeo4j").to("bean:peopleServiceImpl?method=saveAsNode(${body})");
+                from("direct:savePersonNodeInNeo4j").to("bean:relationsService?method=savePersonAsNode(${body})");
 
 //        @formatter.:on
 

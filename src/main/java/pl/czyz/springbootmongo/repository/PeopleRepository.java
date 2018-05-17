@@ -28,5 +28,5 @@ public interface PeopleRepository extends MongoRepository<Person, String> {
 
     Stream<Person> findAllByDateOfBirthIsBetween(LocalDate moreThen, LocalDate lessThen);
 
-
+    Person findByLogin(String login);
 }

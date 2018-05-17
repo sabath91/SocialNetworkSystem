@@ -1,5 +1,6 @@
 package pl.czyz.springbootmongo.repository;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,7 @@ public class PeopleRepositoryTest {
     @Before
     public void setUp() throws Exception {
         this.peopleRepository.deleteAll();
-        this.person = new Person("name", "surname", "City", LocalDate.of(1980, 11, 24));
+        this.person = new Person("name", "surname", "City", RandomStringUtils.randomAlphanumeric(8), LocalDate.of(1980, 11, 24));
         this.peopleRepository.save(person);
 
     }

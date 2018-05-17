@@ -1,23 +1,102 @@
 package pl.czyz.springbootmongo.domain;
 
-import lombok.Data;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @NodeEntity
-@Data
 public class PersonNode {
 
-    private final String mongoId;
     @GraphId
     private Long id;
-    @Relationship(direction = Relationship.INCOMING)
+    private String login;
+
+    @Relationship(direction = Relationship.INCOMING, type = "INVITED_BY")
     private Set<PersonNode> invitations;
 
-    @Relationship(direction = Relationship.UNDIRECTED)
+    @Relationship(direction = Relationship.UNDIRECTED, type = "FRIEND_WITH")
     private Set<PersonNode> friends;
+
+    public PersonNode() {
+    }
+
+    public PersonNode(String login) {
+        this.login = login;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public Set<PersonNode> getInvitations() {
+        return invitations;
+    }
+
+    public void setInvitations(Set<PersonNode> invitations) {
+        this.invitations = invitations;
+    }
+
+    public Set<PersonNode> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<PersonNode> friends) {
+        this.friends = friends;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonNode that = (PersonNode) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(login, that.login);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, login);
+    }
+
+    @Override
+    public String toString() {
+        return "PersonNode{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", invitations=" + invitations +
+                ", friends=" + friends +
+                '}';
+    }
+
+    public void addInvitation(PersonNode personNode) {
+        if (invitations == null) {
+            invitations = new HashSet<>();
+        }
+        invitations.add(personNode);
+    }
+
+    public void addFriend(PersonNode personNode) {
+        if (friends == null) {
+            friends = new HashSet<>();
+        }
+        friends.add(personNode);
+    }
 
 }

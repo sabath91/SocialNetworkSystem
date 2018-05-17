@@ -4,6 +4,7 @@ import pl.czyz.springbootmongo.domain.Person;
 
 import java.util.List;
 
+
 public interface PeopleService {
 
 
@@ -28,7 +29,5 @@ public interface PeopleService {
     List<Person> findAll();
 
     Person save(Person person);
-
-    void saveAsNode(Person person);
 
 }
