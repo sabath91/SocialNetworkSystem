@@ -3,6 +3,8 @@ package pl.czyz.springbootmongo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.czyz.springbootmongo.domain.Person;
+import pl.czyz.springbootmongo.domain.PersonNode;
+import pl.czyz.springbootmongo.repository.PeopleNodeRepository;
 import pl.czyz.springbootmongo.repository.PeopleRepository;
 
 import java.time.LocalDate;
@@ -13,10 +15,12 @@ import java.util.stream.Collectors;
 public class PeopleServiceImpl implements PeopleService {
 
     private final PeopleRepository peopleRepository;
+    private final PeopleNodeRepository peopleNodeRepository;
 
     @Autowired
-    public PeopleServiceImpl(PeopleRepository peopleRepository) {
+    public PeopleServiceImpl(PeopleRepository peopleRepository, PeopleNodeRepository peopleNodeRepository) {
         this.peopleRepository = peopleRepository;
+        this.peopleNodeRepository = peopleNodeRepository;
     }
 
 
@@ -79,7 +83,13 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public void save(Person person) {
-        peopleRepository.save(person);
+    public Person save(Person person) {
+        return peopleRepository.insert(person);
+    }
+
+    @Override
+    public void saveAsNode(Person person) {
+        PersonNode personNode = new PersonNode(person.getId());
+        peopleNodeRepository.save(personNode);
     }
 }

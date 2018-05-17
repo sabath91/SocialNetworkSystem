@@ -1,12 +1,12 @@
 package pl.czyz.springbootmongo.domain;
 
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 
 @Document
@@ -30,6 +30,6 @@ public class Person {
     }
 
     public void setDateOfBirth(String date) {
-       this.dateOfBirth = LocalDate.parse(date);
+        this.dateOfBirth = LocalDate.parse(date);
     }
 }
