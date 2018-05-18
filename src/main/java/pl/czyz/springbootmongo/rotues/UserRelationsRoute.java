@@ -19,11 +19,11 @@ public class UserRelationsRoute extends RouteBuilder {
                 .post("/sendInvitation/{friendLogin}")
                     .to("bean:relationsService?method=sendInvitation(${header.login}, ${header.friendLogin})")
 
-                .post("/acceptInvitation/{invitationsSender}")
-                    .to("bean:relationsService?method=acceptInvitation(${header.invitationsSender}, ${header.login})")
+                .post("/acceptInvitation/{invitationSender}")
+                    .to("bean:relationsService?method=acceptInvitation(${header.invitationSender}, ${header.login})")
 
                 .post("/declineInvitation/{invitationSender}")
-                    .to("bean:relationsService?method=declineInvitation(${header.invitationsSender}, ${header.login}")
+                    .to("bean:relationsService?method=declineInvitation(${header.invitationSender}, ${header.login}")
 
                 .post("deleteFriendship/{friendLogin}")
                     .to("bean:relationsService?method=deleteFriendship(${header.login}, ${header.friendLogin}")
@@ -32,8 +32,10 @@ public class UserRelationsRoute extends RouteBuilder {
                     .to("bean:relationsService?method=myFriends(${header.login})")
 
                 .get("/myNetwork")
-                    .to("bean:relationsService?method=myNetwork(${header.login})");
+                    .to("bean:relationsService?method=myNetwork(${header.login})")
 
+                .get("/distanceTo/{destinationUser}")
+                    .to("bean:relationsService?method=distanceFactor(${header.login}, ${header.destinationUser)");
 
 
 //        @formatter:on

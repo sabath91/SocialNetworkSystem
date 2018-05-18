@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 @Document
@@ -21,6 +24,8 @@ public class Person {
     private String surname;
     private String city;
     private LocalDate dateOfBirth;
+    private List<UserMessage> publishedMessages;
+
 
 
     public Person(String name, String surname, String city, String login, LocalDate dateOfBirth) {
@@ -31,7 +36,18 @@ public class Person {
         this.login = login;
     }
 
+    public List<UserMessage> getPublishedMessages() {
+        return Collections.unmodifiableList(publishedMessages);
+    }
+
     public void setDateOfBirth(String date) {
         this.dateOfBirth = LocalDate.parse(date);
+    }
+
+    public void publishMessage(UserMessage message) {
+        if (publishedMessages == null) {
+            publishedMessages = new ArrayList<>();
+        }
+        publishedMessages.add(message);
     }
 }

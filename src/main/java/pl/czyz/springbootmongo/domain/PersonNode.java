@@ -13,6 +13,7 @@ public class PersonNode {
 
     @GraphId
     private Long id;
+
     private String login;
 
     @Relationship(direction = Relationship.INCOMING, type = "INVITED_BY")
@@ -75,14 +76,9 @@ public class PersonNode {
         return Objects.hash(id, login);
     }
 
-    @Override
-    public String toString() {
-        return "PersonNode{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", invitations=" + invitations +
-                ", friends=" + friends +
-                '}';
+    public void string() {
+        invitations.forEach(i -> System.out.println(i.getLogin()));
+//        friends.forEach(f-> System.out.println(f.getLogin())) ;
     }
 
     public void addInvitation(PersonNode personNode) {

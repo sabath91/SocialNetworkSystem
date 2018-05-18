@@ -8,7 +8,7 @@ public interface RelationsService {
 
     void savePersonAsNode(Person person);
 
-    void sendInvitation(String senderLogin, String addresseeLogin);
+    void sendInvitation(String currentUserLogin, String addresseeLogin);
 
     List<Person> myInvitations(String currentUser);
 
@@ -21,4 +21,6 @@ public interface RelationsService {
     List<Person> myFriends(String currentUser);
 
     List<Person> myNetwork(String currentUser);
+
+    Integer distanceFactor(String currentUser, String destinationUser);
 }

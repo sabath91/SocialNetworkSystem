@@ -30,53 +30,31 @@ public class RelationsServiceImpl implements RelationsService {
     }
 
     @Override
-    public void sendInvitation(String senderLogin, String addresseeLogin) {
-        final PersonNode invitationSender = peopleNodeRepository.findByLogin(senderLogin);
-        PersonNode invitationAddressee = peopleNodeRepository.findByLogin(addresseeLogin);
-        invitationAddressee.addInvitation(invitationSender);
-        peopleNodeRepository.save(invitationAddressee);
+    public void sendInvitation(String currentUserLogin, String addresseeLogin) {
+        peopleNodeRepository.sendInvitation(currentUserLogin, addresseeLogin);
     }
 
     @Override
     public List<Person> myInvitations(String currentUserLogin) {
         List<Person> friends = new ArrayList<>();
-        Set<PersonNode> invitations = peopleNodeRepository.findByLogin(currentUserLogin).getInvitations();
+        Set<PersonNode> invitations = peopleNodeRepository.findMyInvitations(currentUserLogin);
         invitations.forEach(invitation -> friends.add(peopleRepository.findByLogin(invitation.getLogin())));
         return friends;
     }
 
     @Override
     public void acceptInvitation(String senderLogin, String currentUserLogin) {
-        final PersonNode sender = peopleNodeRepository.findByLogin(senderLogin);
-        final PersonNode currentUser = peopleNodeRepository.findByLogin(currentUserLogin);
-
-        currentUser.getInvitations().remove(sender);
-        currentUser.addFriend(sender);
-        sender.addFriend(currentUser);
-
-        peopleNodeRepository.save(currentUser);
-        peopleNodeRepository.save(sender);
+        peopleNodeRepository.deleteInvitationAndMarkAsFriends(currentUserLogin, senderLogin);
     }
 
     @Override
     public void declineInvitation(String senderLogin, String currentUserLogin) {
-        final PersonNode sender = peopleNodeRepository.findByLogin(senderLogin);
-        final PersonNode currentUser = peopleNodeRepository.findByLogin(currentUserLogin);
-
-        currentUser.getInvitations().remove(sender);
-        peopleNodeRepository.save(currentUser);
+        peopleNodeRepository.declineInvitation(currentUserLogin, senderLogin);
     }
 
     @Override
     public void deleteFriendship(String currentUserLogin, String friendToDeleteLogin) {
-        final PersonNode friendToDelete = peopleNodeRepository.findByLogin(friendToDeleteLogin);
-        final PersonNode currentUser = peopleNodeRepository.findByLogin(currentUserLogin);
-
-        currentUser.getFriends().remove(friendToDelete);
-        friendToDelete.getFriends().remove(currentUser);
-
-        peopleNodeRepository.save(currentUser);
-        peopleNodeRepository.save(friendToDelete);
+        peopleNodeRepository.deleteFriendship(currentUserLogin, friendToDeleteLogin);
     }
 
     @Override
@@ -93,6 +71,11 @@ public class RelationsServiceImpl implements RelationsService {
         List<PersonNode> allNetwork = peopleNodeRepository.findNetwork(currentUser);
         allNetwork.forEach(personNode -> network.add(peopleRepository.findByLogin(personNode.getLogin())));
         return network;
+    }
+
+    @Override
+    public Integer distanceFactor(String currentUser, String destinationUser) {
+        return peopleNodeRepository.distanceFactor(currentUser, destinationUser);
     }
 
 
