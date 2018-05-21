@@ -1,16 +1,16 @@
 package pl.czyz.springbootmongo.services;
 
-import pl.czyz.springbootmongo.domain.Person;
+import pl.czyz.springbootmongo.domain.User;
 
 import java.util.List;
 
 public interface RelationsService {
 
-    void savePersonAsNode(Person person);
+    void savePersonAsNode(User user);
 
     void sendInvitation(String currentUserLogin, String addresseeLogin);
 
-    List<Person> myInvitations(String currentUser);
+    List<User> myInvitations(String currentUser);
 
     void acceptInvitation(String senderLogin, String currentUserLogin);
 
@@ -18,9 +18,10 @@ public interface RelationsService {
 
     void deleteFriendship(String currentUserLogin, String friendToDeleteLogin);
 
-    List<Person> myFriends(String currentUser);
+    List<User> myFriends(String currentUser);
 
-    List<Person> myNetwork(String currentUser);
+    List<User> myNetwork(String currentUser);
 
     Integer distanceFactor(String currentUser, String destinationUser);
+
 }

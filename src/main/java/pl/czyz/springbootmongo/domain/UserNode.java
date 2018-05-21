@@ -9,23 +9,23 @@ import java.util.Objects;
 import java.util.Set;
 
 @NodeEntity
-public class PersonNode {
+public class UserNode {
 
     @GraphId
     private Long id;
 
     private String login;
 
-    @Relationship(direction = Relationship.INCOMING, type = "INVITED_BY")
-    private Set<PersonNode> invitations;
+    @Relationship(direction = Relationship.OUTGOING, type = "INVITED_BY")
+    private Set<UserNode> invitations;
 
     @Relationship(direction = Relationship.UNDIRECTED, type = "FRIEND_WITH")
-    private Set<PersonNode> friends;
+    private Set<UserNode> friends;
 
-    public PersonNode() {
+    public UserNode() {
     }
 
-    public PersonNode(String login) {
+    public UserNode(String login) {
         this.login = login;
     }
 
@@ -45,19 +45,19 @@ public class PersonNode {
         this.login = login;
     }
 
-    public Set<PersonNode> getInvitations() {
+    public Set<UserNode> getInvitations() {
         return invitations;
     }
 
-    public void setInvitations(Set<PersonNode> invitations) {
+    public void setInvitations(Set<UserNode> invitations) {
         this.invitations = invitations;
     }
 
-    public Set<PersonNode> getFriends() {
+    public Set<UserNode> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set<PersonNode> friends) {
+    public void setFriends(Set<UserNode> friends) {
         this.friends = friends;
     }
 
@@ -65,7 +65,7 @@ public class PersonNode {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonNode that = (PersonNode) o;
+        UserNode that = (UserNode) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(login, that.login);
     }
@@ -81,18 +81,18 @@ public class PersonNode {
 //        friends.forEach(f-> System.out.println(f.getLogin())) ;
     }
 
-    public void addInvitation(PersonNode personNode) {
+    public void addInvitation(UserNode userNode) {
         if (invitations == null) {
             invitations = new HashSet<>();
         }
-        invitations.add(personNode);
+        invitations.add(userNode);
     }
 
-    public void addFriend(PersonNode personNode) {
+    public void addFriend(UserNode userNode) {
         if (friends == null) {
             friends = new HashSet<>();
         }
-        friends.add(personNode);
+        friends.add(userNode);
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Document
 @Data
-public class Person {
+public class User {
 
     @Id
     private String id;
@@ -24,11 +24,10 @@ public class Person {
     private String surname;
     private String city;
     private LocalDate dateOfBirth;
-    private List<UserMessage> publishedMessages;
+    private List<UserMessage> publishedMessages = new ArrayList<>();
 
 
-
-    public Person(String name, String surname, String city, String login, LocalDate dateOfBirth) {
+    public User(String name, String surname, String city, String login, LocalDate dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.city = city;
@@ -45,9 +44,6 @@ public class Person {
     }
 
     public void publishMessage(UserMessage message) {
-        if (publishedMessages == null) {
-            publishedMessages = new ArrayList<>();
-        }
         publishedMessages.add(message);
     }
 }

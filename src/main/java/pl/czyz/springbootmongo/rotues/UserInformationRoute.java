@@ -2,15 +2,15 @@ package pl.czyz.springbootmongo.rotues;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
-import pl.czyz.springbootmongo.domain.Person;
+import pl.czyz.springbootmongo.domain.User;
 
 @Component
-public class PeopleRoute extends RouteBuilder {
+public class UserInformationRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
 //      @formatter:off
-        rest("/api/people")
+        rest("/api/users")
                 .consumes("application/json")
                 .produces("application/json")
 
@@ -45,7 +45,7 @@ public class PeopleRoute extends RouteBuilder {
                     .to("bean:peopleService?method=findAllByDateOfBirthIsBetween(${header.olderThen},${header.youngerThen})")
 
                 .post()
-                    .type(Person.class)
+                    .type(User.class)
                     .responseMessage()
                     .code(201)
                     .endResponseMessage()

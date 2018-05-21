@@ -35,8 +35,18 @@ public class UserRelationsRoute extends RouteBuilder {
                     .to("bean:relationsService?method=myNetwork(${header.login})")
 
                 .get("/distanceTo/{destinationUser}")
-                    .to("bean:relationsService?method=distanceFactor(${header.login}, ${header.destinationUser)");
+                    .to("direct:getDistance");
 
+                from("direct:getDistance")
+                    .to("activemq:queue:distance");
+
+
+                from("activemq:queue:distance?concurrentConsumers=10")
+                    .to("bean:relationsService?method=distanceFactor(${header.login}, ${header.destinationUser})")
+                    .to("direct:getLogs");
+
+                from("direct:getLogs")
+                        .to("bean:relationsService?method=hello(${body})");
 
 //        @formatter:on
     }
