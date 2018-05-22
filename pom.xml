@@ -115,11 +115,6 @@
             <artifactId>spring-boot-starter-data-neo4j</artifactId>
         </dependency>
 
-        <!--<dependency> &lt;!&ndash; If you're using the HTTP driver &ndash;&gt;-->
-        <!--<groupId>org.neo4j</groupId>-->
-        <!--<artifactId>neo4j-ogm-http-driver</artifactId>-->
-        <!--</dependency>-->
-
         <!--UTILS-->
         <dependency>
             <groupId>commons-lang</groupId>
