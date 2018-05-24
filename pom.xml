@@ -19,19 +19,77 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <profiles>
+        <profile>
+            <id>integration</id>
+            <properties>
+                <unit-tests.skip>false</unit-tests.skip>
+                <integration-tests.skip>false</integration-tests.skip>
+            </properties>
+        </profile>
+    </profiles>
+
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <unit-tests.skip>false</unit-tests.skip>
+        <integration-tests.skip>true</integration-tests.skip>
+
         <java.version>1.8</java.version>
         <camel.version>2.21.0</camel.version>
-        <activemq.version>5.14.0</activemq.version>
+        <activemq.version>5.15.3</activemq.version>
+
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${unit-tests.skip}</skipTests>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>${integration-tests.skip}</skipTests>
+                            <includes>
+                                <include>**/*IT.class</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -50,11 +108,18 @@
             <version>${camel.version}</version>
         </dependency>
 
+        <!--<dependency>-->
+        <!--<groupId>org.apache.camel</groupId>-->
+        <!--<artifactId>camel-restlet-starter</artifactId>-->
+        <!--<version>${camel.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-restlet-starter</artifactId>
+            <artifactId>camel-servlet-starter</artifactId>
             <version>${camel.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -100,15 +165,6 @@
             <version>${camel.version}</version>
         </dependency>
 
-
-        <!--DB FOR TESTING-->
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>2.0.3</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--NEO4J DATABASE-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -122,17 +178,62 @@
             <version>2.6</version>
         </dependency>
 
+        <!--TESTING-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+        </dependency>
+
+        <!--DB FOR TESTING-->
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>2.0.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--CAMEL-->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-test</artifactId>
+            <version>${camel.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--TESTING REST-->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>2.20.1</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 
 </project>

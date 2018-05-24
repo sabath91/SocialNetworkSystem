@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "String",
+  "login": "String",
+  "name": "String",
+  "surname": "String",
+  "city": "String",
+  "dateOfBirth": {
+    "year": {
+      "type": "number"
+    },
+    "month": "String",
+    "era": "String",
+    "dayOfMonth": {
+      "type": "number"
+    },
+    "dayOfWeek": "String",
+    "dayOfYear": {
+      "type": "number"
+    },
+    "leapYear": {
+      "type": "boolean"
+    },
+    "monthValue": {
+      "type": "number"
+    },
+    "chronology": {
+      "calendarType": "String",
+      "id": "String"
+    }
+  }
+}

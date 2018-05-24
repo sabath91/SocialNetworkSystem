@@ -11,11 +11,10 @@ public class RootRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         restConfiguration()
-                .component("restlet")
+                .component("servlet")
                 .host("0.0.0.0")
                 .port("8080")
                 .bindingMode(RestBindingMode.json)
-                .enableCORS(true)
                 // turn on swagger api-doc
                 .apiContextPath("/api/api-doc")
                 .apiProperty("api.title", "People API")
