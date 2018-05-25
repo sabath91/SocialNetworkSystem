@@ -1,6 +1,7 @@
 package pl.czyz.springbootmongo.domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class UserMessage {
@@ -14,9 +15,14 @@ public class UserMessage {
         this.content = content;
     }
 
-    public LocalDateTime getDateOfPublication() {
-        return dateOfPublication;
+    public String getDateOfPublication() {
+        return dateOfPublication.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
+
+
+//    public LocalDateTime getDateOfPublication() {
+//        return dateOfPublication;
+//    }
 
     public String getContent() {
         return content;

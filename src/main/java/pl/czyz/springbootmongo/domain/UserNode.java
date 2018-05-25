@@ -17,10 +17,10 @@ public class UserNode {
     private String login;
 
     @Relationship(direction = Relationship.OUTGOING, type = "INVITED_BY")
-    private Set<UserNode> invitations;
+    private Set<UserNode> invitations = new HashSet<>();
 
     @Relationship(direction = Relationship.UNDIRECTED, type = "FRIEND_WITH")
-    private Set<UserNode> friends;
+    private Set<UserNode> friends = new HashSet<>();
 
     public UserNode() {
     }
@@ -82,16 +82,11 @@ public class UserNode {
     }
 
     public void addInvitation(UserNode userNode) {
-        if (invitations == null) {
-            invitations = new HashSet<>();
-        }
         invitations.add(userNode);
     }
 
     public void addFriend(UserNode userNode) {
-        if (friends == null) {
-            friends = new HashSet<>();
-        }
+
         friends.add(userNode);
     }
 

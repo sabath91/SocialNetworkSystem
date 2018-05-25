@@ -5,6 +5,7 @@ import pl.czyz.springbootmongo.domain.User;
 import pl.czyz.springbootmongo.domain.UserMessage;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MessageRepresentation implements Comparable {
 
@@ -16,7 +17,7 @@ public class MessageRepresentation implements Comparable {
     public MessageRepresentation(UserMessage userMessage, User user) {
         this.userName = user.getName();
         this.userSurname = user.getSurname();
-        this.publicationDate = userMessage.getDateOfPublication();
+        this.publicationDate = LocalDateTime.parse(userMessage.getDateOfPublication());
         this.content = userMessage.getContent();
     }
 
@@ -28,8 +29,8 @@ public class MessageRepresentation implements Comparable {
         return userSurname;
     }
 
-    public LocalDateTime getPublicationDate() {
-        return publicationDate;
+    public String getPublicationDate() {
+        return publicationDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     public String getContent() {
@@ -40,7 +41,7 @@ public class MessageRepresentation implements Comparable {
     public int compareTo(Object o) {
         LocalDateTime compareTime = ((MessageRepresentation) o).publicationDate;
         if (this.publicationDate.isEqual(compareTime)) return 0;
-        if (this.getPublicationDate().isBefore(compareTime)) {
+        if (this.publicationDate.isBefore(compareTime)) {
             return 1;
         } else {
             return -1;

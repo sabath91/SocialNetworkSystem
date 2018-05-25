@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "users",
+  "type": "array",
+  "items": {
+    "title": "User",
+    "type": "object",
+    "properties": {
+      "id": {
+        "description": "The unique identifier for a user",
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "surname": {
+        "type": "string"
+      },
+      "city": {
+        "type": "string"
+      },
+      "dateOfBirth": {
+        "type": "string"
+      },
+      "publishedMessages": {
+        "type": "array",
+        "items": {
+          "title": "UserMessage",
+          "type": "object",
+          "properties": {
+            "dateOfPublication": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "surname",
+    "city",
+    "dateOfBirth",
+    "publishedMessages"
+  ],
+  "additionalProperties": false
+}
