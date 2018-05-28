@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataMongoTest
-public class UsersRepositoryTest {
+public class UsersRepositoryIT {
 
     @Autowired
     private UsersRepository usersRepository;

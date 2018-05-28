@@ -107,14 +107,16 @@ public class UserInformationRouteIT {
     @Test
     public void shouldPersistUserWhenCreatingAsNodeInUserNodeRepository() {
         User user = new User("name", "surname", "City", RandomStringUtils.randomAlphanumeric(8), LocalDate.of(1980, 11, 24));
-//  formatter:off
+//        @formatter:off
         given()
-                .contentType("application/json")
-                .body(user)
-                .when()
-                .post("/api/users")
-                .then()
-                .statusCode(HttpStatus.SC_OK);
+            .contentType("application/json")
+            .body(user)
+        .when()
+            .post("/api/users")
+        .then()
+            .statusCode(HttpStatus.SC_OK);
+//      @formatter:on
+
 
         UserNode userNode = usersNodeRepository.findByLogin(user.getLogin());
         assertNotNull(userNode);

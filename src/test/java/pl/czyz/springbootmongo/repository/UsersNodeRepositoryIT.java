@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional
-public class UsersNodeRepositoryTest {
+public class UsersNodeRepositoryIT {
 
     @Autowired
     private UsersNodeRepository usersNodeRepository;
