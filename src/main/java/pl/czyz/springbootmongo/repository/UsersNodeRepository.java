@@ -2,11 +2,13 @@ package pl.czyz.springbootmongo.repository;
 
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.stereotype.Repository;
 import pl.czyz.springbootmongo.domain.UserNode;
 
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public interface UsersNodeRepository extends Neo4jRepository<UserNode, Long> {
     UserNode findByLogin(String login);
 

@@ -2,12 +2,13 @@ package pl.czyz.springbootmongo.repository;
 
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 import pl.czyz.springbootmongo.domain.User;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-
+@Repository
 public interface UsersRepository extends MongoRepository<User, String> {
 
     Stream<User> findAllByCity(String city);

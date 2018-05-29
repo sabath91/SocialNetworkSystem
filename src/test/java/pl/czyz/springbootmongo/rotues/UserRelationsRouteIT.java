@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.czyz.springbootmongo.SpringbootMongoApplication;
 import pl.czyz.springbootmongo.domain.User;
 import pl.czyz.springbootmongo.repository.UsersNodeRepository;
 import pl.czyz.springbootmongo.repository.UsersRepository;
@@ -24,7 +25,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = SpringbootMongoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserRelationsRouteIT {
 
     @Autowired
