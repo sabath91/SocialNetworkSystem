@@ -40,13 +40,13 @@ public class UserRelationsRoute extends RouteBuilder {
                 .get("/distanceResult/{destinationUser}")
                     .to("direct:getFromCache");
 
-                from("direct:getDistance")
-                        .wireTap("activemq:distance")
-                        .process(exchange -> exchange.getOut().setBody("RequestReceived"));
-
-                from("activemq:distance?concurrentConsumers=10")
-                    .to("bean:relationsService?method=distanceFactor(${header.login}, ${header.destinationUser})")
-                    .to("direct:saveInCache");
+//                from("direct:getDistance")
+//                        .wireTap("activemq:distance")
+//                        .process(exchange -> exchange.getOut().setBody("RequestReceived"));
+//
+//                from("activemq:distance?concurrentConsumers=10")
+//                    .to("bean:relationsService?method=distanceFactor(${header.login}, ${header.destinationUser})")
+//                    .to("direct:saveInCache");
 //        @formatter:on
     }
 }

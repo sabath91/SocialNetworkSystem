@@ -5,22 +5,31 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.czyz.springbootmongo.SpringbootMongoApplication;
 import pl.czyz.springbootmongo.domain.User;
 import pl.czyz.springbootmongo.repository.UsersRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 
+@DirtiesContext
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class Cucumber_UserInformationIT {
+@SpringBootTest(classes = SpringbootMongoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class Cucumber_UserInformation {
 
 
     @Autowired
@@ -34,6 +43,8 @@ public class Cucumber_UserInformationIT {
 
 
     private User[] apiUsers;
+    private List<String> messages;
+    List<User> usersToAdd = new ArrayList<>();
 
     @Before
     public void setUp() {
@@ -70,7 +81,7 @@ public class Cucumber_UserInformationIT {
         given()
                 .contentType("application/json")
                 .body(johnDeere)
-        .post("/api/users");
+                .post("/api/users");
     }
 
     @Then("User is added to system registry")
@@ -80,6 +91,55 @@ public class Cucumber_UserInformationIT {
         assertEquals(johnDeere.getSurname(), receivedUser.getSurname());
         assertEquals(johnDeere.getCity(), receivedUser.getCity());
         assertEquals(johnDeere.getDateOfBirth(), receivedUser.getDateOfBirth());
+    }
+
+
+    @Given("list of users to register")
+    public void list_of_users_to_register(List<Map<String, String>> users) {
+        users.forEach(System.out::println);
+        mapMapForUsersToAdd(users);
+    }
+
+
+    @When("POST Request are send to system")
+    public void post_Request_are_send_to_system() {
+        usersToAdd.forEach(user -> {
+            given()
+                    .contentType(ContentType.JSON)
+                    .body(user)
+                    .post("/api/users");
+        });
+    }
+
+    @Then("System repository contains all of those users")
+    public void system_repository_contains_all_of_those_users() {
+        assertThat(usersRepository.findAll(), hasSize(4));
+    }
+
+    private void mapMapForUsersToAdd(List<Map<String, String>> users) {
+        //@formatter:off
+
+        users.forEach(mapEntry-> {
+            System.out.println(mapEntry.get("name"));
+        });
+
+
+        users.forEach(mapEntry-> {
+            usersToAdd.add
+                    (new User(
+                             mapEntry.get("name"),
+                             mapEntry.get("surname"),
+                             mapEntry.get("city"),
+                             mapEntry.get("login"),
+                             LocalDate.of(
+                                Integer.valueOf(mapEntry.get("year")),
+                                Integer.valueOf(mapEntry.get("month")),
+                                Integer.valueOf(mapEntry.get("day"))
+                                )
+                            )
+                    );
+        });
+        //@formatter:on
     }
 
 
